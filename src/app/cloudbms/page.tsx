@@ -1,9 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-
+// Define module type to allow overheatedAt as number | null
+type Module = {
+  charge: number;
+  temperature: number;
+  isCharging: boolean;
+  overheatedAt: number | null; // Explicitly allow number or null
+  isOverheating: boolean;
+};
 export default function ChargerSimulator() {
-  const [modules, setModules] = useState(
+  const [modules, setModules] = useState<Module[]>(
     Array(9)
       .fill(undefined) // Fill with undefined
       .map((_, i) => ({
@@ -38,12 +45,14 @@ export default function ChargerSimulator() {
           const newTemperature = module.isOverheating
             ? Math.floor(module.temperature + Math.random() * 10)
             : 25;
-          let newIsCharging: boolean | null = module.isCharging;
-          let newOverheatedAt: number | null = module.overheatedAt;
 
+          let newIsCharging: boolean = module.isCharging;
+          let newOverheatedAt: number | null = module.overheatedAt; // Ensure this remains `number | null`
+
+          // Handle overheating logic
           if (module.isOverheating && newTemperature > 100) {
             if (!newOverheatedAt) {
-              newOverheatedAt = Date.now();
+              newOverheatedAt = Date.now(); // Assign number (timestamp)
             }
             newCharge += 0.5;
           } else {
@@ -55,6 +64,7 @@ export default function ChargerSimulator() {
             newIsCharging = false;
           }
 
+          // Stop charging if it's been overheating for too long
           if (newOverheatedAt && Date.now() - newOverheatedAt > 10000) {
             newIsCharging = false;
           }
@@ -63,7 +73,7 @@ export default function ChargerSimulator() {
             charge: newCharge,
             temperature: newTemperature,
             isCharging: newIsCharging,
-            overheatedAt: newOverheatedAt,
+            overheatedAt: newOverheatedAt, // Properly return updated value
             isOverheating: module.isOverheating,
           };
         });
@@ -72,7 +82,6 @@ export default function ChargerSimulator() {
 
     return () => clearInterval(interval);
   }, []);
-
   return (
     <div className="p-5 flex flex-col items-center bg-gray-900 min-h-screen text-white">
       <h1 className="text-2xl font-bold mb-6">Charger Simulator</h1>
