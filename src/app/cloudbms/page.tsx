@@ -19,7 +19,8 @@ export default function ChargerSimulator() {
         temperature: 25,
         isCharging: true, // 초기 충전 상태를 true로 설정하여 자동으로 충전 시작
         overheatedAt: null,
-        isOverheating: i === 2, // 첫 번째 모듈만 오버히팅 상태로 설정
+        isOverheating: i === 4,
+        // 첫 번째 모듈만 오버히팅 상태로 설정
       }))
   );
 
