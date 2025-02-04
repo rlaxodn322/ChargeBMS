@@ -100,11 +100,11 @@ export default function ChargerSimulator() {
         >
           Charger
         </motion.div>
-        <div className="flex flex-row items-center relative mt-8">
+        <div className="flex flex-wrap justify-center mt-8 gap-8">
           {modules.map((module, index) => (
             <div
               key={index}
-              className="relative flex flex-col items-center mx-4"
+              className="relative flex flex-col items-center mx-4 mb-8"
             >
               <motion.div
                 className="absolute top-[-30px] left-1/2 transform -translate-x-1/2 w-1 h-16"
@@ -114,7 +114,7 @@ export default function ChargerSimulator() {
                 transition={{ duration: 0.5 }}
               ></motion.div>
               <motion.div
-                className="w-20 h-20 flex flex-col items-center justify-center border rounded-full shadow-md text-black font-bold mt-6"
+                className="w-20 h-20 flex flex-col items-center justify-center border rounded-full shadow-md text-black font-bold"
                 style={{
                   background: module.isCharging ? '#e0f7fa' : '#ffccbc',
                   color: module.temperature > 100 ? 'red' : 'black',
